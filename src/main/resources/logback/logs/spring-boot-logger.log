@@ -1,0 +1,16 @@
+2023-02-11 22:57:45,645 INFO o.s.b.StartupInfoLogger [main] Starting SpringWithElkApplication using Java 17.0.6 with PID 8256 (D:\Documentos\Brain Java\SpringWithELK\target\classes started by DS in D:\Documentos\Brain Java\SpringWithELK)
+2023-02-11 22:57:45,646 INFO o.s.b.SpringApplication [main] No active profile set, falling back to 1 default profile: "default"
+2023-02-11 22:57:46,162 INFO o.s.b.w.e.t.TomcatWebServer [main] Tomcat initialized with port(s): 8080 (http)
+2023-02-11 22:57:46,169 INFO o.a.j.l.DirectJDKLog [main] Initializing ProtocolHandler ["http-nio-8080"]
+2023-02-11 22:57:46,170 INFO o.a.j.l.DirectJDKLog [main] Starting service [Tomcat]
+2023-02-11 22:57:46,171 INFO o.a.j.l.DirectJDKLog [main] Starting Servlet engine: [Apache Tomcat/10.1.5]
+2023-02-11 22:57:46,236 INFO o.a.j.l.DirectJDKLog [main] Initializing Spring embedded WebApplicationContext
+2023-02-11 22:57:46,236 INFO o.s.b.w.s.c.ServletWebServerApplicationContext [main] Root WebApplicationContext: initialization completed in 561 ms
+2023-02-11 22:57:46,443 INFO o.a.j.l.DirectJDKLog [main] Starting ProtocolHandler ["http-nio-8080"]
+2023-02-11 22:57:46,459 INFO o.s.b.w.e.t.TomcatWebServer [main] Tomcat started on port(s): 8080 (http) with context path ''
+2023-02-11 22:57:46,466 INFO o.s.b.StartupInfoLogger [main] Started SpringWithElkApplication in 1.177 seconds (process running for 1.537)
+2023-02-11 23:33:32,328 INFO o.s.b.a.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin [RMI TCP Connection(45)-127.0.0.1] Application shutdown requested.
+2023-02-11 23:33:32,337 INFO o.a.j.l.DirectJDKLog [RMI TCP Connection(45)-127.0.0.1] Pausing ProtocolHandler ["http-nio-8080"]
+2023-02-11 23:33:32,338 INFO o.a.j.l.DirectJDKLog [RMI TCP Connection(45)-127.0.0.1] Stopping service [Tomcat]
+2023-02-11 23:33:32,342 INFO o.a.j.l.DirectJDKLog [RMI TCP Connection(45)-127.0.0.1] Stopping ProtocolHandler ["http-nio-8080"]
+2023-02-11 23:33:32,344 INFO o.a.j.l.DirectJDKLog [RMI TCP Connection(45)-127.0.0.1] Destroying ProtocolHandler ["http-nio-8080"]

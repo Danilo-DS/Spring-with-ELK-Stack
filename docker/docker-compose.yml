@@ -1,0 +1,99 @@
+version: "3"
+
+services:
+  springapplication:
+    image: springapplication:1.0.0
+    build:
+      context: ../
+      dockerfile: ./docker/app/Dockerfile
+    container_name: springapplication
+    networks:
+      - elk
+    ports:
+      - "8080:8080"
+    environment:
+      - LOGBACK_FILE=/logback/logback-spring.xml
+    labels:
+      collect_logs_with_filebeat: "true" #Allows filebeat to collect application logs
+      decode_log_event_to_json_object: "true" #Convert logs to json objects so filebeat can read
+
+  elasticsearch:
+    image: elasticsearch:8.6.2
+    container_name: elasticsearch
+    restart: on-failure
+    environment:
+      - xpack.security.enabled=false # xpack is extension that provides resources of security, alerting, monitoring and etc
+      - discovery.type=single-node # the discovery define the cluster formation process by defining a master node.
+    ulimits: 
+      memlock: # shared memory limit setting
+        soft: -1 # getting default value container 
+        hard: -1 # getting default value container
+        
+      nofile: # specify the maximum number of Open Files/File Descriptors this user can have at one time in (KB)
+        soft: 65535
+        hard: 65535
+    cap_add: # privilege setting
+      - IPC_LOCK # blocking the sending of information to disk.
+    networks:
+      - elk
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data:rw # volume setting
+    ports:
+      - "9200:9200"
+  kibana:
+    container_name: kibana
+    image: kibana:8.6.2
+    restart: on-failure
+    environment:
+      - SERVER_NAME=kibana
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200 # integration with container elasticsearch
+    ports:
+      - "5601:5601"
+    networks: 
+      - elk
+    depends_on:
+      - elasticsearch
+
+  logstash:
+    container_name: logstash
+    restart: on-failure
+    image: logstash:8.6.2
+    build:
+      context: ./logstash/
+    networks:
+      - elk
+    depends_on:
+      - elasticsearch
+    ports:
+      - "5044:5044"
+      - "9600:9600"
+
+  filebeat:
+    container_name: filebeat
+    restart: on-failure
+    build:
+      context: ./filebeat/
+    image: filebeat:8.6.2
+    volumes:
+      - filebeat-data:/usr/share/filebeat/data:rw 
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    user: root
+    networks:
+      - elk
+    depends_on:
+      - logstash
+
+networks:
+  elk:
+    driver: bridge
+      
+volumes:
+  elasticsearch-data:
+    driver: local
+  filebeat-data:
+    driver: local
+   
+  
+  
+  

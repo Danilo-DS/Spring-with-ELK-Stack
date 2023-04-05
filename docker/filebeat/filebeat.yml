@@ -1,0 +1,24 @@
+# Configuration for filebeat to listen to applications and capture logs 
+filebeat.autodiscover:
+  providers:
+    - type: docker
+      templates:
+        - condition:
+            contains:
+              container.labels.collect_logs_with_filebeat: "true"
+          config:
+            - type: container
+              format: docker
+              paths:
+                - /var/lib/docker/containers/${data.docker.container.id}/*.log
+              processors:
+                - decode_json_fields:
+                    when.equals:
+                      docker.container.labels.decode_log_event_to_json_object: "true"
+                    fields: ["message", "@version", "level", "@timestamp", "logger_name", "application_name"]
+                    target: ""
+                    overwrite_keys: true
+
+# Capture applications logs and send to logstash
+output.logstash:
+    hosts: "logstash:5044"

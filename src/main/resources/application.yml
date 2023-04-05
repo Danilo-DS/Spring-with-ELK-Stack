@@ -1,0 +1,8 @@
+logging:
+  config: ${user.dir}${LOGBACK_FILE:/src/main/resources/logback/logback-spring.xml}
+
+spring:
+  application:
+    name: springwithelk
+  main:
+    banner-mode: "off"
