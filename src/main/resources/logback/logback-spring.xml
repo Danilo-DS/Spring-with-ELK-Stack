@@ -8,45 +8,6 @@
 	
 	<springProperty scope="context" name="application_name" source="spring.application.name"/>
 	
-    <appender name="Console"
-        class="ch.qos.logback.core.ConsoleAppender">
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <Pattern>
-                <!-- %black(%d{UTF8}) %highlight(%-5level) [%blue(%t)] %yellow(%C{1}): %msg%n%throwable -->
-                ${PATTERN}
-            </Pattern>
-        </layout>
-    </appender>
-
-    <appender name="RollingFile"
-        class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOGS}/logFile.log</file>
-        <encoder
-            class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <Pattern>${PATTERN}</Pattern>
-        </encoder>
-
-        <rollingPolicy
-            class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!-- rollover daily and when the file reaches 10 MegaBytes -->
-            <fileNamePattern>${LOGS}/archived/logFile-%d{yyyy-MM-dd}.%i.log
-            </fileNamePattern>
-            <timeBasedFileNamingAndTriggeringPolicy
-                class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <maxFileSize>10MB</maxFileSize>
-            </timeBasedFileNamingAndTriggeringPolicy>
-        </rollingPolicy>
-    </appender>
-	
-	<!-- Setting to send logs by TCP -->
-	<appender name="Logstash--" class ="net.logstash.logback.appender.LogstashTcpSocketAppender" >
-		<destination>${URL_ACCESS_LOGSTASH}</destination>	
-		
-		<encoder class="net.logstash.logback.encoder.LogstashEncoder">
-            <Pattern>${PATTERN}</Pattern>
-		</encoder>
-	</appender>
-	
 	<appender name="Logstash" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
             <providers>
@@ -87,15 +48,5 @@
         <appender-ref ref="CONSOLE" />
         <appender-ref ref="Logstash" />
     </root>
-
-    <!-- LOG "com.baeldung*" at TRACE level -->
-    <!-- <logger name="com.baeldung" level="trace" additivity="false">
-        <appender-ref ref="RollingFile" />
-        <appender-ref ref="Console" />
-    </logger> -->
-    
-    <!-- https://salithachathuranga94.medium.com/integrate-elk-stack-into-spring-boot-application-ae38a6371f86 -->
-    <!-- https://www.elastic.co/pt/blog/using-spring-boot-with-elastic-app-search -->
-	
 	
 </configuration>
